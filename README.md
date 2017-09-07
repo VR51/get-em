@@ -18,7 +18,7 @@ First Written: 3rd Sep. 2017
 
 First Release: 3rd Sep. 2017
 
-This Release: 3rd Sep. 2017
+This Release: 7th Sep. 2017
 
 Copyright 2017 Get-EM <https://journalxtra.com>
 
@@ -37,12 +37,12 @@ Use of this program is at your own risk
 
 All files are downloaded to the current execution directory e.g. if you are in ~/Downloads then discs will download to ~/Downloads/<files>
 
-Ensure the script is executable. Click the get-em.sh file to run the basic program.
+Ensure the script is executable. Click the get-em.sh file to run the program or use from the command line with arguments.
 
 To download all Atari ATR discs from 001 to 437:
 
 ```bash get-em.sh or ./get-em.sh```
-- Press D to download all discs to the current directory.
+- Choose option 4.
 
 To download from a specific disc set number up to set 437, e.g 101 to 437:
 
@@ -51,22 +51,30 @@ To download from a specific disc set number up to set 437, e.g 101 to 437:
 To download a specific disc range, e.g 51 to 99:
 
 ```bash get-em.sh 51 99```
+Or launch the program and choose option 3
 
 To download a single disc, e.g disc 43:
 
 ```bash get-em.sh 43 43```
+Or launch the program and choose option 2
 
 To read the current update message to see which disc(s) or file(s) has(have) been updated:
 
 ```bash get-em.sh m```
 
-Or just click the program file. This will display the update message, any previous update messages the script downoaded and offer to download all files (press 'D').
+To get the most recently updated disk, launch the program and choose option 1.
+
+Or just click the program file. This will display the update message, any previous update messages the script downoaded and offer to download all files (option 4).
 
 # LIMITATIONS
 
 This games download script will download disc collections only. Some files are not in ATR disc collections. Files not in collections must be downloaded from from http://www.mushca.com/f/atari/index.php manually.
 
 # CHANGELOG
+
+1.0.2
+
+- Added menu options: 1) Download most recently updated disk, 2) Download specific disk(s), 3) Download a disk range, 4) Download all disks, and, 5) Exit.
 
 1.0.1
 
