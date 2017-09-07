@@ -2,7 +2,7 @@
 clear
 ###
 #
-#	Get-Em 1.0.1
+#	Get-Em 1.0.2
 #
 #	Lead Author: Lee Hodson
 #	Donate: paypal.me/vr51
@@ -34,7 +34,7 @@ clear
 #   To download all Atari ATR discs from 001 to 437:
 
 #     Command line: bash get-em.sh or ./get-em.sh
-#			Press D to download all discs
+#			Choose option 4
 #			Press any other key to close window without downloading anything.
 #
 #   To download from a specific disc set up to set 437, e.g 101 to 437:
@@ -60,7 +60,9 @@ filepath="$( dirname "$(readlink -f "$0")" )"
 
 today=$( date '+%a %b%e, %Y' )
 
-last_message=()
+declare -a options=( 'Download_Disk_#' 'Download_specific_disk(s)' 'Download_disk_range' 'Download_ALL_disks_(0_to_437)' 'Exit' )
+
+last_message=('Thu Sep 7, 2017: Last archive update (07.09.2017): Diskette 155 - clean versions of the already exist games, new game on this disk: Diego Dash 04 ...' )
 
 # A Little precaution
 cd "$filepath"
@@ -88,7 +90,6 @@ function get_em_discs() {
 	if test "$1" == 'm' || test "$#" == 0 ; then
 	
 		message=$(wget -qO- 'http://www.mushca.com/f/atari/index.php?id' | grep 'lsx=0;txt=')
-
 		pre='lsx=0;txt="'
 		post='";'
 
@@ -124,11 +125,10 @@ function get_em_discs() {
 		# Record last message
 		sed -i -E "0,/last_message=\((.*)\)/s/last_message=\((.*)\)/last_message=('$today: $message' \1)/" "$0"
 
-		
 		printf $bold
-		get_em_prompt "\nPress 'D' to download all available ATR discs to the current directory or press any other key to exit.\n"
+		get_em_prompt "Options" "${options[*]}"
 		printf $normal
-		
+
 		exit 0
 	fi
 
@@ -156,16 +156,78 @@ function get_em_discs() {
 
 function get_em_prompt() {
 
-  while true; do
+		unset options
+		declare -a options=( ${2} )
 
-		printf "${1}\n\n"
+		# Extract newly edited disk number
+		disk=$message
+		disk=$(printf "$disk" | sed -E "s/.*Diskette\s([0-9]{1,3}).*/\1/i")
+
+		if test "${#disk}" -gt 0; then
+			options[0]="$(printf "${options[0]}" | sed "s/#/$disk/i")"
+		else
+			options[0]=' '
+		fi
+		
+		
+		printf "\n$1\n\n"
+		
+  while true; do
+  
+		n=1
+		for i in "${options[@]}"; do
+			i=$(printf "$i" | sed "s/_/ /g")
+			printf "$n) $i\n"
+			let n=n+1
+		done
+		
+			printf "\n"
 		
 		read REPLY
 	
 		case $REPLY in
 		
-		[dD])
+		1)
 		
+			# Get updated disk
+
+			if test "$disk" -gt 0 ; then
+				get_em_discs $disk $disk
+			fi
+					
+		;;
+		
+		2)
+		
+			# Get specific disk(s)
+		
+			declare -a a
+			printf "\nDisk number(s) to download. Separate multiple disk numbers with a space\n"
+			read a
+
+			for i in ${a[@]}; do
+				get_em_discs $i $i
+			done
+		
+		;;
+		
+		3)
+		
+		# Get range
+		
+			printf "\nFirst disk number\n"
+			read a
+			printf "\nLast disk number\n"
+			read z
+			
+			get_em_discs $a $z
+			
+		;;
+		
+		4)
+		
+			# Get all disks
+			
 			start=1
 			end=437
 			
@@ -175,9 +237,13 @@ function get_em_prompt() {
 			
 		;;
 
-		*)
+		5)
 			
 			exit 0
+			
+		;;
+		
+		*)
 			
 		esac
 
