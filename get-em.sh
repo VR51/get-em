@@ -57,20 +57,18 @@ clear
 
 # Locate Where We Are
 filepath="$( dirname "$(readlink -f "$0")" )"
-
-today=$( date '+%a %b%e, %Y' )
-
-declare -a options=( 'Download_Disk_#' 'Download_specific_disk(s)' 'Download_disk_range' 'Download_ALL_disks_(0_to_437)' 'Exit' )
-
-last_message=('Thu Sep 7, 2017: Last archive update (07.09.2017): Diskette 155 - clean versions of the already exist games, new game on this disk: Diego Dash 04 ...' )
-
 # A Little precaution
 cd "$filepath"
 
+today=$( date '+%a %b%e, %Y' )
+
+declare -a options=( 'Download_Disk_#' 'Download_specific_disk(s)' 'Download_disk_range' "Download_ALL_disks_(1_to_437)" 'Delete_message_log' 'Exit' )
+
+last_message=()
+
+
 bold=$(tput bold)
 normal=$(tput sgr0)
-
-
 
 
 function get_em_run() {
@@ -130,6 +128,7 @@ function get_em_discs() {
 		printf $normal
 
 		exit 0
+
 	fi
 
 	if test "$1"; then
@@ -138,18 +137,31 @@ function get_em_discs() {
 
 	if test "$2" ; then
 		end=$2
-		else
-		end=437
 	fi
 
+	if [[ "$start" =~ ^-?[0-9]+$ ]]; then
+	
+		printf "\nDownloading Disk:\n"
+		
+		while [ $start -le $end ]; do
 
-	while [ "$start" -le "$end" ]; do
+			printf -v file "%03d" $start
+			wget -q "http://www.mushca.com/f/atari/GAMES/GAMES$file.ZIP" -O "$filepath/GAMES$file.zip"
+			printf "\nGAMES$file.zip\n"
+			let start=start+1
 
-		printf -v file "%03d" $start
-		wget -q "http://www.mushca.com/f/atari/GAMES/GAMES$file.ZIP" -O "$filepath/GAMES$file.zip"
-		let start=start+1
-
-	done
+		done
+	fi
+	
+	if test $3; then
+		if test $3 -eq $end; then
+			printf "\nPress any key to continue.\n"
+			read a
+		fi
+	else
+		printf "\nPress any key to continue.\n"
+		read a
+	fi
 
 }
 
@@ -187,33 +199,28 @@ function get_em_prompt() {
 	
 		case $REPLY in
 		
-		1)
+		1) # Get updated disk
 		
-			# Get updated disk
-
 			if test "$disk" -gt 0 ; then
 				get_em_discs $disk $disk
 			fi
-					
-		;;
-		
-		2)
-		
-			# Get specific disk(s)
-		
-			declare -a a
-			printf "\nDisk number(s) to download. Separate multiple disk numbers with a space\n"
-			read a
+			clear
 
-			for i in ${a[@]}; do
-				get_em_discs $i $i
-			done
-		
 		;;
 		
-		3)
+		2) # Get specific disk(s)
 		
-		# Get range
+			printf "\nDisk number(s) to download. Separate multiple disk numbers with a space\n"
+			read -a a
+
+			c=${a[-1]}
+			for i in ${a[@]}; do
+				get_em_discs $i $i $c
+			done
+			clear
+		;;
+		
+		3) # Get range
 		
 			printf "\nFirst disk number\n"
 			read a
@@ -221,6 +228,7 @@ function get_em_prompt() {
 			read z
 			
 			get_em_discs $a $z
+			clear
 			
 		;;
 		
@@ -232,12 +240,20 @@ function get_em_prompt() {
 			end=437
 			
 			get_em_discs $start $end
-			
-			return 0
+			clear
 			
 		;;
 
-		5)
+		5) # Delete message log
+			
+			sed -i -E "0,/last_message=\(.*\)/s/last_message=\(.*\)/last_message=()/" "$0"
+			printf "\nLog deleted\n"
+			clear
+			get_em_run "$@"
+			
+		;;
+		
+		6) # Exit
 			
 			exit 0
 			
