@@ -1,10 +1,8 @@
-# Get-Em
+# Get-Em 1.0.3
 
-Download script for Atari 8-bit games.
+Download Atari 8-bit Game Disks from [http://www.mushca.com/f/atari/index.php](http://www.mushca.com/f/atari/index.php).
 
-Downloads Atari 8-bit Game Discs found at [http://www.mushca.com/f/atari/index.php](http://www.mushca.com/f/atari/index.php).
-
-These discs are in ATR format. You will need an emulator to play the discs such as Atari800 or MAME. Some emulators like these files to be unzipped whereas others like them zipped. This script will not unzip the files. Atari800 prefers them unzipped.
+These disks are in ATR format. You will need an emulator to play the disks. Such an emulator would be Atari800 or MAME. Some emulators like these files to be unzipped whereas others like them zipped. This Atari disk downloader has an option to unzip downloaded files and either a, keep the zip files, or, b, delete the zip files. For reference, Atari800 / Atari800 Win prefers files unzipped.
 
 More information about MAME software is available at [JournalXtra.com](https://journalxtra.com/gaming/download-complete-sets-of-mess-and-mame-roms/).
 
@@ -71,6 +69,10 @@ Or just click the program file. This will display the update message, any previo
 This games download script will download disc collections only. Some files are not in ATR disc collections. Files not in collections must be downloaded from from http://www.mushca.com/f/atari/index.php manually.
 
 # CHANGELOG
+
+1.0.3
+
+- Added unzip options: 1) unzip and keep zip files; and 2) unzip then delete zip files.
 
 1.0.2
 
