@@ -2,14 +2,14 @@
 clear
 ###
 #
-#	Get-Em 1.0.2
+#	Get-Em 1.0.3
 #
 #	Lead Author: Lee Hodson
 #	Donate: paypal.me/vr51
 #	Website: https://journalxtra.com
 #	First Written: 3rd Sep. 2017
 #	First Release: 3rd Sep. 2017
-#	This Release: 3rd Sep. 2017
+#	This Release: 10th Sep. 2017
 #
 #	Copyright 2017 Get-EM <https://journalxtra.com>
 #	License: GPL3
@@ -56,15 +56,15 @@ clear
 ###
 
 # Locate Where We Are
-filepath="$( dirname "$(readlink -f "$0")" )"
+filepath="$( echo $PWD )"
 # A Little precaution
 cd "$filepath"
 
-today=$( date '+%a %b%e, %Y' )
+today=$( date '+%a %b %e, %Y' )
 
-declare -a options=( 'Download_Disk_#' 'Download_specific_disk(s)' 'Download_disk_range' "Download_ALL_disks_(1_to_437)" 'Delete_message_log' 'Exit' )
+declare -a options=( 'Download_disk_#' 'Download_specific_disk(s)' 'Download_disk_range' 'Download_ALL_disks_(1_to_437)' "Unzip_all_zip_files_in_$filepath/" "Unzip_and_delete_all_zip_files_in_$filepath/" 'Delete_message_log' 'Exit' )
 
-last_message=()
+declare -a last_message=()
 
 
 bold=$(tput bold)
@@ -118,14 +118,14 @@ function get_em_discs() {
 		printf $normal
 		
 		printf "\nVisit http://www.mushca.com/f/atari/index.php from time to time.\n"
-		printf "\nDownload script from https://github.com/VR51/get-em\n"
+		printf "\nDownload Get-Em script updates from https://github.com/VR51/get-em\n"
+		printf "\nSend clean donations to https://paypal.me/vr51\n"
 
 		# Record last message
 		sed -i -E "0,/last_message=\((.*)\)/s/last_message=\((.*)\)/last_message=('$today: $message' \1)/" "$0"
-
+		
 		printf $bold
 		get_em_prompt "Options" "${options[*]}"
-		printf $normal
 
 		exit 0
 
@@ -183,6 +183,7 @@ function get_em_prompt() {
 		
 		
 		printf "\n$1\n\n"
+		printf $normal
 		
   while true; do
   
@@ -244,7 +245,46 @@ function get_em_prompt() {
 			
 		;;
 
-		5) # Delete message log
+		5) # Unzip files and keep zips
+			
+			for f in "$filepath"/*.zip
+			do
+				if test -f "$f"
+				then
+					unzip "$f"
+				fi
+
+			done
+
+			printf $bold
+			printf "\nPress any key to continue\n"
+			printf $normal
+			read something
+			clear
+
+		;;
+
+		6) # Unzip files and delete zips
+			
+			for f in "$filepath/"*.zip
+			do
+				if test -f "$f"
+				then
+					unzip "$f"
+					unlink "$f"
+				fi
+
+			done
+
+			printf $bold
+			printf "\nPress any key to continue\n"
+			printf $normal
+			read something
+			clear
+
+		;;
+		
+		7) # Delete message log
 			
 			sed -i -E "0,/last_message=\(.*\)/s/last_message=\(.*\)/last_message=()/" "$0"
 			printf "\nLog deleted\n"
@@ -253,7 +293,7 @@ function get_em_prompt() {
 			
 		;;
 		
-		6) # Exit
+		8) # Exit
 			
 			exit 0
 			
