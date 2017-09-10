@@ -2,9 +2,13 @@
 
 Download Atari 8-bit Game Disks from [http://www.mushca.com/f/atari/index.php](http://www.mushca.com/f/atari/index.php).
 
-These disks are in ATR format. You will need an emulator to play the disks. Such an emulator would be Atari800 or MAME. Some emulators like these files to be unzipped whereas others like them zipped. This Atari disk downloader has an option to unzip downloaded files and either a, keep the zip files, or, b, delete the zip files. For reference, Atari800 / Atari800 Win prefers files unzipped.
+Disks downloaded by Get-Em are in zipped ATR format. You will need an emulator to play the disks. Such an emulator would be Atari800 or MAME. Some emulators like these disks to be unzipped whereas others like them zipped. This Atari disk downloader has an option to unzip downloaded files and either a, keep the zip files, or, b, delete the zip files. For reference, Atari800 / Atari800 Win prefers files unzipped.
+
+The only file you need from here is get-em.sh. The other files provide information about get-em.sh and list the games in the disks.
 
 More information about MAME software is available at [JournalXtra.com](https://journalxtra.com/gaming/download-complete-sets-of-mess-and-mame-roms/).
+
+You must visit [http://www.mushca.com/f/atari/index.php](http://www.mushca.com/f/atari/index.php) to get disks that are not software compilation disks i.e. those that are named by game name and not named by compilation set number.
 
 Lead Author: Lee Hodson
 
