@@ -16,7 +16,7 @@ First Written: 3rd Sep. 2017
 
 First Release: 3rd Sep. 2017
 
-This Release: 7th Sep. 2017
+This Release: 10th Sep. 2017
 
 Copyright 2017 Get-EM <https://journalxtra.com>
 
