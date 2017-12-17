@@ -2,14 +2,14 @@
 clear
 ###
 #
-#	Get-Em 1.0.3
+#	Get-Em 1.0.4
 #
 #	Lead Author: Lee Hodson
 #	Donate: paypal.me/vr51
 #	Website: https://journalxtra.com
 #	First Written: 3rd Sep. 2017
 #	First Release: 3rd Sep. 2017
-#	This Release: 10th Sep. 2017
+#	This Release: 17th Dec. 2017
 #
 #	Copyright 2017 Get-EM <https://journalxtra.com>
 #	License: GPL3
@@ -31,7 +31,7 @@ clear
 #
 #	  Ensure the script is executable.
 #
-#   To download all Atari ATR discs from 001 to 437:
+#   To download all Atari ATR discs from 001 to 439:
 
 #     Command line: bash get-em.sh or ./get-em.sh
 #			Choose option 4
@@ -238,7 +238,7 @@ function get_em_prompt() {
 			# Get all disks
 			
 			start=1
-			end=437
+			end=439
 			
 			get_em_discs $start $end
 			clear
