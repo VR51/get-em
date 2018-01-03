@@ -9,7 +9,7 @@ clear
 #	Website: https://journalxtra.com
 #	First Written: 3rd Sep. 2017
 #	First Release: 3rd Sep. 2017
-#	This Release: 17th Dec. 2017
+#	This Release: 1st Jan. 2018
 #
 #	Copyright 2017 Get-EM <https://journalxtra.com>
 #	License: GPL3
@@ -31,13 +31,13 @@ clear
 #
 #	  Ensure the script is executable.
 #
-#   To download all Atari ATR discs from 001 to 439:
+#   To download all Atari ATR discs from 001 to 440:
 
 #     Command line: bash get-em.sh or ./get-em.sh
 #			Choose option 4
 #			Press any other key to close window without downloading anything.
 #
-#   To download from a specific disc set up to set 437, e.g 101 to 437:
+#   To download from a specific disc set up to set 440, e.g 101 to 440
 #      bash get-em.sh 101
 #
 #   To download a specific disc range, e.g 51 to 99:
@@ -62,7 +62,7 @@ cd "$filepath"
 
 today=$( date '+%a %b %e, %Y' )
 
-declare -a options=( 'Download_disk_#' 'Download_specific_disk(s)' 'Download_disk_range' 'Download_ALL_disks_(1_to_437)' "Unzip_all_zip_files_in_$filepath/" "Unzip_and_delete_all_zip_files_in_$filepath/" 'Delete_message_log' 'Exit' )
+declare -a options=( 'Download_disk_#' 'Download_specific_disk(s)' 'Download_disk_range' 'Download_ALL_disks_(1_to_440)' "Unzip_all_zip_files_in_$filepath/" "Unzip_and_delete_all_zip_files_in_$filepath/" 'Delete_message_log' 'Exit' )
 
 declare -a last_message=()
 
@@ -238,7 +238,7 @@ function get_em_prompt() {
 			# Get all disks
 			
 			start=1
-			end=439
+			end=440
 			
 			get_em_discs $start $end
 			clear
