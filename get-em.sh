@@ -2,14 +2,14 @@
 clear
 ###
 #
-#	Get-Em 1.0.4
+#	Get-Em 1.0.5
 #
 #	Lead Author: Lee Hodson
-#	Donate: paypal.me/vr51
-#	Website: https://journalxtra.com
+#	Donate: https://paypal.me/vr51
+#	Website: https://journalxtra.com/gaming/classic-atari-games-downloader/
+#	This Release: 17th Feb. 2018
 #	First Written: 3rd Sep. 2017
 #	First Release: 3rd Sep. 2017
-#	This Release: 1st Jan. 2018
 #
 #	Copyright 2017 Get-EM <https://journalxtra.com>
 #	License: GPL3
@@ -62,7 +62,7 @@ cd "$filepath"
 
 today=$( date '+%a %b %e, %Y' )
 
-declare -a options=( 'Download_disk_#' 'Download_specific_disk(s)' 'Download_disk_range' 'Download_ALL_disks_(1_to_440)' "Unzip_all_zip_files_in_$filepath/" "Unzip_and_delete_all_zip_files_in_$filepath/" 'Delete_message_log' 'Exit' )
+declare -a options=( 'Download_disk_#' 'Download_specific_disk(s)' 'Download_disk_range' 'Download_ALL_disks_(1_to_440)' "Unzip_all_zip_files_in_$filepath/" "Unzip_and_delete_all_zip_files_in_$filepath/" "Download_to_$filepath/,_unzip_all,_then_delete_all_zips." 'Delete_message_log' 'Exit' )
 
 declare -a last_message=()
 
@@ -284,7 +284,36 @@ function get_em_prompt() {
 
 		;;
 		
-		7) # Delete message log
+		7) # Download, unzip, delete
+		
+			# Get all disks
+			
+			start=1
+			end=440
+			
+			get_em_discs $start $end
+			
+			# Unzip and delete packages
+			
+			for f in "$filepath/"*.zip
+			do
+				if test -f "$f"
+				then
+					unzip "$f"
+					unlink "$f"
+				fi
+
+			done
+
+			printf $bold
+			printf "\nPress any key to continue\n"
+			printf $normal
+			read something
+			clear
+		
+		;;
+		
+		8) # Delete message log
 			
 			sed -i -E "0,/last_message=\(.*\)/s/last_message=\(.*\)/last_message=()/" "$0"
 			printf "\nLog deleted\n"
@@ -293,7 +322,7 @@ function get_em_prompt() {
 			
 		;;
 		
-		8) # Exit
+		9) # Exit
 			
 			exit 0
 			
