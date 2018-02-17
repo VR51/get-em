@@ -1,4 +1,4 @@
-# Get-Em 1.0.4
+# Get-Em 1.0.5
 
 Download Atari 8-bit Game Disks from [http://www.mushca.com/f/atari/index.php](http://www.mushca.com/f/atari/index.php).
 
@@ -12,15 +12,16 @@ You must visit [http://www.mushca.com/f/atari/index.php](http://www.mushca.com/f
 
 Lead Author: Lee Hodson
 
-Donate: paypal.me/vr51
+Donate: https://paypal.me/vr51
 
-Website: https://journalxtra.com
+Website: https://journalxtra.com/gaming/classic-atari-games-downloader/
+
+This Release: 17th Feb. 2018
 
 First Written: 3rd Sep. 2017
 
 First Release: 3rd Sep. 2017
 
-This Release: 1st Jan. 2018
 
 Copyright 2017 Get-EM <https://journalxtra.com>
 
@@ -45,6 +46,10 @@ To download all Atari ATR discs from 001 to 440:
 
 ```bash get-em.sh or ./get-em.sh```
 - Choose option 4.
+
+To download all disks, unzip them and delete the reduendent zip files:
+```bash get-em.sh or ./get-em.sh```
+- Choose option 7.
 
 To download from a specific disc set number up to set 437, e.g 101 to 437:
 
@@ -73,6 +78,11 @@ Or just click the program file. This will display the update message, any previo
 This games download script will download disc collections only. Some files are not in ATR disc collections. Files not in collections must be downloaded from from http://www.mushca.com/f/atari/index.php manually.
 
 # CHANGELOG
+
+1.0.5
+
+- New option. Added option to download all disks, unzip their package files then clean up the zip downloads (deletes them).
+- Bugfix. Replaced disk downloader. Changed from wget with curl.
 
 1.0.4
 
