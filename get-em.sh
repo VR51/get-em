@@ -31,8 +31,10 @@ clear
 #
 #	  Ensure the script is executable.
 #
+#		Option 7 is best to use to build your first collection. Use this option to download all disks, unzip all packages then delete all zip packages.
+#
 #   To download all Atari ATR discs from 001 to 440:
-
+#
 #     Command line: bash get-em.sh or ./get-em.sh
 #			Choose option 4
 #			Press any other key to close window without downloading anything.
@@ -146,7 +148,8 @@ function get_em_discs() {
 		while [ $start -le $end ]; do
 
 			printf -v file "%03d" $start
-			wget -q "http://www.mushca.com/f/atari/GAMES/GAMES$file.ZIP" -O "$filepath/GAMES$file.zip"
+			# wget -q "http://www.mushca.com/f/atari/GAMES/GAMES$file.ZIP" -O "$filepath/GAMES$file.zip"
+			curl -e "http://www.mushca.com/f/atari/index.php" "http://www.mushca.com/f/atari/index.php?dl=$file" -o "$filepath/GAMES$file.zip"
 			printf "\nGAMES$file.zip\n"
 			let start=start+1
 
