@@ -1,4 +1,4 @@
-# Get-Em 1.0.5
+# Get-Em 1.0.6
 
 Download Atari 8-bit Game Disks from [http://www.mushca.com/f/atari/index.php](http://www.mushca.com/f/atari/index.php).
 
@@ -42,7 +42,7 @@ All files are downloaded to the current execution directory e.g. if you are in ~
 
 Ensure the script is executable. Click the get-em.sh file to run the program or use from the command line with arguments.
 
-To download all Atari ATR discs from 001 to 440:
+To download all Atari ATR discs from 001 to 441:
 
 ```bash get-em.sh or ./get-em.sh```
 - Choose option 4.
@@ -78,6 +78,10 @@ Or just click the program file. This will display the update message, any previo
 This games download script will download disc collections only. Some files are not in ATR disc collections. Files not in collections must be downloaded from from http://www.mushca.com/f/atari/index.php manually.
 
 # CHANGELOG
+
+1.0.6
+
+- Updated highest value of available disks from 440 to 441.
 
 1.0.5
 
