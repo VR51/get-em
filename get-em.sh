@@ -2,12 +2,12 @@
 clear
 ###
 #
-#	Get-Em 1.0.5
+#	Get-Em 1.0.6
 #
 #	Lead Author: Lee Hodson
 #	Donate: https://paypal.me/vr51
 #	Website: https://journalxtra.com/gaming/classic-atari-games-downloader/
-#	This Release: 17th Feb. 2018
+#	This Release: 12th Mar. 2018
 #	First Written: 3rd Sep. 2017
 #	First Release: 3rd Sep. 2017
 #
@@ -26,34 +26,34 @@ clear
 #
 #	TO RUN:
 #
-#   All files are downloaded to the current directory e.g. if you are in ~/Downloads then
-#   discs will download to ~/Downloads/<files>
+#   	All files are downloaded to the current directory e.g. if you are in ~/Downloads then
+#	   discs will download to ~/Downloads/<files>
 #
 #	  Ensure the script is executable.
 #
 #		Option 7 is best to use to build your first collection. Use this option to download all disks, unzip all packages then delete all zip packages.
 #
-#   To download all Atari ATR discs from 001 to 440:
+#   	To download all Atari ATR discs from 001 to 441:
 #
-#     Command line: bash get-em.sh or ./get-em.sh
-#			Choose option 4
-#			Press any other key to close window without downloading anything.
+#     	Command line: bash get-em.sh or ./get-em.sh
+#		Choose option 4
+#		Press any other key to close window without downloading anything.
 #
-#   To download from a specific disc set up to set 440, e.g 101 to 440
-#      bash get-em.sh 101
+#   	To download from a specific disc set up to set 441, e.g 101 to 441
+#      	bash get-em.sh 101
 #
-#   To download a specific disc range, e.g 51 to 99:
-#      bash get-em.sh 51 99
+#   	To download a specific disc range, e.g 51 to 99:
+#	bash get-em.sh 51 99
 #
-#   To download a single disc, e.g disc 43:
-#      bash get-em.sh 43 43
+#	To download a single disc, e.g disc 43:
+#	bash get-em.sh 43 43
 #
-#		To read the current update message to see which disc(s) or file(s) has(have) been updated:
-#      bash get-em.sh m OR just click the program file
+#	To read the current update message to see which disc(s) or file(s) has(have) been updated:
+#	bash get-em.sh m OR just click the program file
 #
 #	LIMITATIONS
 #
-#		Will download disc collections only. Some files are not in ATR disc collections so these NAMED files must be downloaded manually.
+#	Will download disc collections only. Some files are not in ATR disc collections so these NAMED files must be downloaded manually.
 #
 ###
 
@@ -64,7 +64,7 @@ cd "$filepath"
 
 today=$( date '+%a %b %e, %Y' )
 
-declare -a options=( 'Download_disk_#' 'Download_specific_disk(s)' 'Download_disk_range' 'Download_ALL_disks_(1_to_440)' "Unzip_all_zip_files_in_$filepath/" "Unzip_and_delete_all_zip_files_in_$filepath/" "Download_to_$filepath/,_unzip_all,_then_delete_all_zips." 'Delete_message_log' 'Exit' )
+declare -a options=( 'Download_disk_#' 'Download_specific_disk(s)' 'Download_disk_range' 'Download_ALL_disks_(1_to_441)' "Unzip_all_zip_files_in_$filepath/" "Unzip_and_delete_all_zip_files_in_$filepath/" "Download_to_$filepath/,_unzip_all,_then_delete_all_zips." 'Delete_message_log' 'Exit' )
 
 declare -a last_message=()
 
@@ -241,7 +241,7 @@ function get_em_prompt() {
 			# Get all disks
 			
 			start=1
-			end=440
+			end=441
 			
 			get_em_discs $start $end
 			clear
@@ -292,7 +292,7 @@ function get_em_prompt() {
 			# Get all disks
 			
 			start=1
-			end=440
+			end=441
 			
 			get_em_discs $start $end
 			
