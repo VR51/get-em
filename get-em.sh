@@ -2,12 +2,12 @@
 clear
 ###
 #
-#	Get-Em 1.0.6
+#	Get-Em 1.0.7
 #
 #	Lead Author: Lee Hodson
 #	Donate: https://paypal.me/vr51
 #	Website: https://journalxtra.com/gaming/classic-atari-games-downloader/
-#	This Release: 12th Mar. 2018
+#	This Release: 2nd May. 2018
 #	First Written: 3rd Sep. 2017
 #	First Release: 3rd Sep. 2017
 #
@@ -33,13 +33,13 @@ clear
 #
 #		Option 7 is best to use to build your first collection. Use this option to download all disks, unzip all packages then delete all zip packages.
 #
-#   	To download all Atari ATR discs from 001 to 441:
+#   	To download all Atari ATR discs from 001 to 442:
 #
 #     	Command line: bash get-em.sh or ./get-em.sh
 #		Choose option 4
 #		Press any other key to close window without downloading anything.
 #
-#   	To download from a specific disc set up to set 441, e.g 101 to 441
+#   	To download from a specific disc set up to set 442, e.g 101 to 442
 #      	bash get-em.sh 101
 #
 #   	To download a specific disc range, e.g 51 to 99:
@@ -64,10 +64,18 @@ cd "$filepath"
 
 today=$( date '+%a %b %e, %Y' )
 
-declare -a options=( 'Download_disk_#' 'Download_specific_disk(s)' 'Download_disk_range' 'Download_ALL_disks_(1_to_441)' "Unzip_all_zip_files_in_$filepath/" "Unzip_and_delete_all_zip_files_in_$filepath/" "Download_to_$filepath/,_unzip_all,_then_delete_all_zips." 'Delete_message_log' 'Exit' )
+declare -a options
+declare -a last_message=('Wed May  2, 2018: Last archive update (02.05.2018): Diskette 442 - some new games ...' '' )
 
-declare -a last_message=()
-
+options[1]="Download disk #"
+options[2]="Download specific disk(s)"
+options[3]="Download disk range"
+options[4]="Download ALL disks (1 to 442)"
+options[5]="Unzip all zip files in $filepath"
+options[6]="Unzip and delete all zip files in $filepath"
+options[7]="Download ALL disks, unzip them, then delete all zips."
+options[8]="Delete_message_log"
+options[9]="Exit"
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -171,17 +179,14 @@ function get_em_discs() {
 
 function get_em_prompt() {
 
-		unset options
-		declare -a options=( ${2} )
-
 		# Extract newly edited disk number
 		disk=$message
 		disk=$(printf "$disk" | sed -E "s/.*Diskette\s([0-9]{1,3}).*/\1/i")
 
 		if test "${#disk}" -gt 0; then
-			options[0]="$(printf "${options[0]}" | sed "s/#/$disk/i")"
+			options[1]="$(printf "${options[1]}" | sed "s/#/$disk/i")"
 		else
-			options[0]=' '
+			options[1]=' '
 		fi
 		
 		
@@ -192,7 +197,6 @@ function get_em_prompt() {
   
 		n=1
 		for i in "${options[@]}"; do
-			i=$(printf "$i" | sed "s/_/ /g")
 			printf "$n) $i\n"
 			let n=n+1
 		done
@@ -241,7 +245,7 @@ function get_em_prompt() {
 			# Get all disks
 			
 			start=1
-			end=441
+			end=442
 			
 			get_em_discs $start $end
 			clear
@@ -292,7 +296,7 @@ function get_em_prompt() {
 			# Get all disks
 			
 			start=1
-			end=441
+			end=442
 			
 			get_em_discs $start $end
 			
