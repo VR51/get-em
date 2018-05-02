@@ -1,4 +1,4 @@
-# Get-Em 1.0.6
+# Get-Em 1.0.7
 
 Download Atari 8-bit Game Disks from [http://www.mushca.com/f/atari/index.php](http://www.mushca.com/f/atari/index.php).
 
@@ -16,7 +16,7 @@ Donate: https://paypal.me/vr51
 
 Website: https://journalxtra.com/gaming/classic-atari-games-downloader/
 
-This Release: 17th Feb. 2018
+This Release: 2nd May. 2018
 
 First Written: 3rd Sep. 2017
 
@@ -42,7 +42,7 @@ All files are downloaded to the current execution directory e.g. if you are in ~
 
 Ensure the script is executable. Click the get-em.sh file to run the program or use from the command line with arguments.
 
-To download all Atari ATR discs from 001 to 441:
+To download all Atari ATR discs from 001 to 442:
 
 ```bash get-em.sh or ./get-em.sh```
 - Choose option 4.
@@ -78,33 +78,29 @@ Or just click the program file. This will display the update message, any previo
 This games download script will download disc collections only. Some files are not in ATR disc collections. Files not in collections must be downloaded from from http://www.mushca.com/f/atari/index.php manually.
 
 # CHANGELOG
+1.0.7
+- Changed final disk to 442.
+- Adjusted code to improve menu.
 
 1.0.6
-
 - Updated highest value of available disks from 440 to 441.
 
 1.0.5
-
 - New option. Added option to download all disks, unzip their package files then clean up the zip downloads (deletes them).
 - Bugfix. Replaced disk downloader. Changed from wget with curl.
 
 1.0.4
-
 - Changed final disk download number to 440.
 
 1.0.3
-
 - Added unzip options: 1) unzip and keep zip files; and 2) unzip then delete zip files.
 
 1.0.2
-
 - Added menu options: 1) Download most recently updated disk, 2) Download specific disk(s), 3) Download a disk range, 4) Download all disks, and, 5) Exit.
 
 1.0.1
-
 - Added click-to-run feature
 - The script now records the disc archive update messages
 
 1.0.0
-
 - First public release
