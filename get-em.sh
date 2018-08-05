@@ -2,16 +2,16 @@
 clear
 ###
 #
-#	Get-Em 1.0.7
+#	Get-Em 1.0.8
 #
 #	Lead Author: Lee Hodson
 #	Donate: https://paypal.me/vr51
 #	Website: https://journalxtra.com/gaming/classic-atari-games-downloader/
-#	This Release: 2nd May. 2018
+#	This Release: 5th Aug 2018
 #	First Written: 3rd Sep. 2017
 #	First Release: 3rd Sep. 2017
 #
-#	Copyright 2017 Get-EM <https://journalxtra.com>
+#	Copyright 2017-2018 Get-EM <https://journalxtra.com>
 #	License: GPL3
 #
 #	Programmer: Lee Hodson <journalxtra.com>, VR51 <vr51.com>
@@ -33,13 +33,13 @@ clear
 #
 #		Option 7 is best to use to build your first collection. Use this option to download all disks, unzip all packages then delete all zip packages.
 #
-#   	To download all Atari ATR discs from 001 to 442:
+#   	To download all Atari ATR discs from 001 to 443:
 #
 #     	Command line: bash get-em.sh or ./get-em.sh
 #		Choose option 4
 #		Press any other key to close window without downloading anything.
 #
-#   	To download from a specific disc set up to set 442, e.g 101 to 442
+#   	To download from a specific disc set up to set 443, e.g 101 to 443
 #      	bash get-em.sh 101
 #
 #   	To download a specific disc range, e.g 51 to 99:
@@ -65,12 +65,12 @@ cd "$filepath"
 today=$( date '+%a %b %e, %Y' )
 
 declare -a options
-declare -a last_message=('Wed May  2, 2018: Last archive update (02.05.2018): Diskette 442 - some new games ...' '' )
+declare -a last_message=()
 
 options[1]="Download disk #"
 options[2]="Download specific disk(s)"
 options[3]="Download disk range"
-options[4]="Download ALL disks (1 to 442)"
+options[4]="Download ALL disks (1 to 443)"
 options[5]="Unzip all zip files in $filepath"
 options[6]="Unzip and delete all zip files in $filepath"
 options[7]="Download ALL disks, unzip them, then delete all zips."
@@ -245,7 +245,7 @@ function get_em_prompt() {
 			# Get all disks
 			
 			start=1
-			end=442
+			end=443
 			
 			get_em_discs $start $end
 			clear
@@ -296,7 +296,7 @@ function get_em_prompt() {
 			# Get all disks
 			
 			start=1
-			end=442
+			end=443
 			
 			get_em_discs $start $end
 			
