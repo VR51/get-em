@@ -34,7 +34,7 @@ Use of this program is at your own risk
 # USE THIS TO:
 
 - Download ATR discs from http://www.mushca.com/f/atari/index.php
-- To see the current update notice displayed at the Homecroft site.
+- To see the current update notice displayed at the Homesoft site.
 
 # TO RUN:
 
