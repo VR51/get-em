@@ -2,12 +2,12 @@
 clear
 ###
 #
-#	Get-Em 1.0.8
+#	Get-Em 1.0.9
 #
 #	Lead Author: Lee Hodson
 #	Donate: https://paypal.me/vr51
 #	Website: https://journalxtra.com/gaming/classic-atari-games-downloader/
-#	This Release: 5th Aug 2018
+#	This Release: 15th Sep. 2018
 #	First Written: 3rd Sep. 2017
 #	First Release: 3rd Sep. 2017
 #
@@ -26,34 +26,31 @@ clear
 #
 #	TO RUN:
 #
-#   	All files are downloaded to the current directory e.g. if you are in ~/Downloads then
-#	   discs will download to ~/Downloads/<files>
+#		All files are downloaded to the current directory e.g. if you are in ~/Downloads then
+#		discs will download to ~/Downloads/<files>
 #
-#	  Ensure the script is executable.
+#		Ensure the script is executable.
 #
-#		Option 7 is best to use to build your first collection. Use this option to download all disks, unzip all packages then delete all zip packages.
+#		Option 7 is best to use to build your first collection. This option will download all disks (both ATR discs and individual files), then unzip all downloadded packages before it deletes the zip packages.
 #
-#   	To download all Atari ATR discs from 001 to 443:
+#		But.. if you want to control the download...
 #
-#     	Command line: bash get-em.sh or ./get-em.sh
-#		Choose option 4
-#		Press any other key to close window without downloading anything.
+#		To download all Atari ATR discs from 001 to 443 and the individual files:
+#			Command line: bash get-em.sh or ./get-em.sh
+#			Choose option 4
 #
-#   	To download from a specific disc set up to set 443, e.g 101 to 443
-#      	bash get-em.sh 101
+#		To download from a specific disc set up to set 443, e.g 101 to 443
+#			bash get-em.sh 101
 #
-#   	To download a specific disc range, e.g 51 to 99:
-#	bash get-em.sh 51 99
+#		To download a specific disc range, e.g 51 to 99:
+#			bash get-em.sh 51 99
 #
-#	To download a single disc, e.g disc 43:
-#	bash get-em.sh 43 43
+#		To download a single disc, e.g disc 43:
+#			bash get-em.sh 43 43
 #
 #	To read the current update message to see which disc(s) or file(s) has(have) been updated:
-#	bash get-em.sh m OR just click the program file
+#		bash get-em.sh m OR just click the program file
 #
-#	LIMITATIONS
-#
-#	Will download disc collections only. Some files are not in ATR disc collections so these NAMED files must be downloaded manually.
 #
 ###
 
@@ -70,10 +67,10 @@ declare -a last_message=()
 options[1]="Download disk #"
 options[2]="Download specific disk(s)"
 options[3]="Download disk range"
-options[4]="Download ALL disks (1 to 443)"
+options[4]="Download ALL software (Atari ATR disks and individual programs)"
 options[5]="Unzip all zip files in $filepath"
 options[6]="Unzip and delete all zip files in $filepath"
-options[7]="Download ALL disks, unzip them, then delete all zips."
+options[7]="Download ALL software, unzip them, then delete all zips."
 options[8]="Delete_message_log"
 options[9]="Exit"
 
@@ -164,6 +161,20 @@ function get_em_discs() {
 		done
 	fi
 	
+	if [[ "$start" == 'all' ]]; then
+	
+		printf "\nDownloading All Software:\n"
+		
+		printf "\nHomesoft Collection\n"
+		curl -e "http://www.mushca.com/f/atari/index.php" "http://www.mushca.com/f/atari/index.php?dl=FAF" -o "$filepath/homesoft-collection.zip"
+		printf "\nhomesoft-collection.zip\n"
+		
+		printf "\nHomesoft Disks\n"
+		curl -e "http://www.mushca.com/f/atari/index.php" "http://www.mushca.com/f/atari/index.php?dl=FAI" -o "$filepath/all-disks.zip"
+		printf "\nall-disks.zip\n"
+
+	fi
+	
 	if test $3; then
 		if test $3 -eq $end; then
 			printf "\nPress any key to continue.\n"
@@ -244,8 +255,10 @@ function get_em_prompt() {
 		
 			# Get all disks
 			
-			start=1
-			end=443
+			# start=1
+			# end=443
+			start=all
+			end=all
 			
 			get_em_discs $start $end
 			clear
@@ -295,8 +308,10 @@ function get_em_prompt() {
 		
 			# Get all disks
 			
-			start=1
-			end=443
+			# start=1
+			# end=443
+			start=all
+			end=all
 			
 			get_em_discs $start $end
 			
