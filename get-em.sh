@@ -35,11 +35,11 @@ clear
 #
 #		But.. if you want to control the download...
 #
-#		To download all Atari ATR discs from 001 to 446 and the individual files:
+#		To download all Atari ATR discs from 001 to 456 and the individual files:
 #			Command line: bash get-em.sh or ./get-em.sh
 #			Choose option 4
 #
-#		To download from a specific disc set up to set 446, e.g 101 to 446
+#		To download from a specific disc set up to set 456, e.g 101 to 456
 #			bash get-em.sh 101
 #
 #		To download a specific disc range, e.g 51 to 99:
