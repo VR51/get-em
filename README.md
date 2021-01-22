@@ -23,7 +23,7 @@ First Written: 3rd Sep 2017
 First Release: 3rd Sep 2017
 
 
-Copyright 2017-2018 Get-EM <https://journalxtra.com>
+Copyright 2017 - today Get-EM <https://journalxtra.com>
 
 License: GPL3
 
