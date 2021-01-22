@@ -1,4 +1,4 @@
-# Get-Em 1.0.9.1
+# Get-Em 1.0.10
 
 Download Atari 8-bit Game Disks from [http://www.mushca.com/f/atari/index.php](http://www.mushca.com/f/atari/index.php).
 
@@ -78,7 +78,7 @@ Or just click the program file. This will display the update message, any previo
 This games download script will download disc collections only. Some files are not in ATR disc collections. Files not in collections must be downloaded from from http://www.mushca.com/f/atari/index.php manually.
 
 # CHANGELOG
-1.0.9.1
+1.0.10
 - Text edits
 1.0.9
 - Changed methods used by options 4 and 7. Now they both download all ATR discs and the individual files. This means the full collection can now be downloaded.
