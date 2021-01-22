@@ -2,12 +2,12 @@
 clear
 ###
 #
-#	Get-Em 1.0.9
+#	Get-Em 1.0.10
 #
 #	Lead Author: Lee Hodson
 #	Donate: https://paypal.me/vr51
 #	Website: https://journalxtra.com/gaming/classic-atari-games-downloader/
-#	This Release: 15th Sep. 2018
+#	This Release: 22nd Jan. 2021
 #	First Written: 3rd Sep. 2017
 #	First Release: 3rd Sep. 2017
 #
@@ -35,11 +35,11 @@ clear
 #
 #		But.. if you want to control the download...
 #
-#		To download all Atari ATR discs from 001 to 443 and the individual files:
+#		To download all Atari ATR discs from 001 to 446 and the individual files:
 #			Command line: bash get-em.sh or ./get-em.sh
 #			Choose option 4
 #
-#		To download from a specific disc set up to set 443, e.g 101 to 443
+#		To download from a specific disc set up to set 446, e.g 101 to 446
 #			bash get-em.sh 101
 #
 #		To download a specific disc range, e.g 51 to 99:
