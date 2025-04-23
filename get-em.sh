@@ -1,13 +1,15 @@
 #!/bin/bash
+# Enable error handling
+set -e
 clear
 ###
 #
-#	Get-Em 1.0.10
+#	Get-Em 1.1.0
 #
 #	Lead Author: Lee Hodson
 #	Donate: https://paypal.me/vr51
 #	Website: https://journalxtra.com/gaming/classic-atari-games-downloader/
-#	This Release: 22nd Jan. 2021
+#	This Release: 24th April 2025
 #	First Written: 3rd Sep. 2017
 #	First Release: 3rd Sep. 2017
 #
@@ -35,11 +37,11 @@ clear
 #
 #		But.. if you want to control the download...
 #
-#		To download all Atari ATR discs from 001 to 456 and the individual files:
+#		To download all Atari ATR discs from 001 to 443 and the individual files:
 #			Command line: bash get-em.sh or ./get-em.sh
 #			Choose option 4
 #
-#		To download from a specific disc set up to set 456, e.g 101 to 456
+#		To download from a specific disc set up to set 443, e.g 101 to 443
 #			bash get-em.sh 101
 #
 #		To download a specific disc range, e.g 51 to 99:
@@ -62,7 +64,7 @@ cd "$filepath"
 today=$( date '+%a %b %e, %Y' )
 
 declare -a options
-declare -a last_message=()
+declare -a last_message=('Thu Apr 24, 2025: Welcome to Get-Em! Unable to retrieve the latest message from the website. Please check your internet connection or try again later.' 'Sat Jan 25, 2025: ' 'Fri Mar  8, 2024: ' 'Sun Dec 31, 2023: ' 'Sun Aug 23, 2020: '  )
 
 options[1]="Download disk #"
 options[2]="Download specific disk(s)"
@@ -78,55 +80,67 @@ bold=$(tput bold)
 normal=$(tput sgr0)
 
 
-function get_em_run() {
-	# Check for terminal then run else just run program
-	tty -s
-	if test "$?" -ne 0 ; then
+get_em_run() {
+	# Check if running in a terminal, if not launch terminal
+	if ! tty -s; then
 		get_em_launch
 	else
 		get_em_discs "$@"
 	fi
-	
 }
 
 
-function get_em_discs() {
+get_em_discs() {
+	# Local variables for better scope management
+	local message="" pre post fallback_message
 
-	if test "$1" == 'm' || test "$#" == 0 ; then
-	
-		message=$(wget -qO- 'http://www.mushca.com/f/atari/index.php?id' | grep 'lsx=0;txt=')
-		pre='lsx=0;txt="'
-		post='";'
-
-		message=$(sed "s/$pre//g" <<< "$message")
-		message=$(sed "s/$post//g" <<< "$message")
-		message=$(sed "s/'/\"/g" <<< "$message")
+	if [ "$1" = 'm' ] || [ $# -eq 0 ]; then
+		# Fallback message in case website is unreachable
+		fallback_message="Welcome to Get-Em! Unable to retrieve the latest message from the website. Please check your internet connection or try again later."
 		
-		printf $bold
-		printf "\nNew Message: $today\n"
-		printf $normal
+		# Try to get the message with timeout to prevent hanging
+		if ! message=$(wget --timeout=10 -qO- 'http://www.mushca.com/f/atari/index.php?id' 2>/dev/null | grep 'lsx=0;txt='); then
+			printf "\nWarning: Could not retrieve message from website. Using fallback message.\n"
+			message="$fallback_message"
+		else
+			# Extract message content more robustly
+			pre='lsx=0;txt="'
+			post='";'
 
-		printf "\n$message\n"
-
-		if test "${#last_message[@]}" -ne 0; then
+			# Process message only if it contains the expected pattern
+			if [[ "$message" == *"$pre"* && "$message" == *"$post"* ]]; then
+				message=$(sed "s/$pre//g" <<< "$message")
+				message=$(sed "s/$post//g" <<< "$message")
+				message=$(sed "s/'/\"/g" <<< "$message")
+			else
+				printf "\nWarning: Message format has changed. Using fallback message.\n"
+				message="$fallback_message"
+			fi
+		fi
 		
-			printf $bold
+		printf "%s" "$bold"
+		printf "\nNew Message: %s\n" "$today"
+		printf "%s" "$normal"
+
+		printf "\n%s\n" "$message"
+
+		if [ "${#last_message[@]}" -gt 0 ]; then
+			printf "%s" "$bold"
 			printf "\nOld Message(s)\n"
-			printf $normal
+			printf "%s" "$normal"
 			
-			for i in "${last_message[@]}"; do
-				printf "\n$i"
+			for msg in "${last_message[@]}"; do
+				printf "\n%s" "$msg"
 			done
-		
 		fi
 
-		printf $bold
+		printf "%s" "$bold"
 		printf "\n\nInformation\n"
-		printf $normal
+		printf "%s" "$normal"
 		
 		printf "\nVisit http://www.mushca.com/f/atari/index.php from time to time.\n"
 		printf "\nDownload Get-Em script updates from https://github.com/VR51/get-em\n"
-		printf "\nSend clean donations to https://paypal.me/vr51\n"
+		printf "\nSend donations to https://paypal.me/vr51\n"
 
 		# Record last message
 		sed -i -E "0,/last_message=\((.*)\)/s/last_message=\((.*)\)/last_message=('$today: $message' \1)/" "$0"
@@ -138,78 +152,104 @@ function get_em_discs() {
 
 	fi
 
-	if test "$1"; then
-		start=$1
+	# Process command line arguments for disk numbers with proper initialization
+	local start="" end="" file
+
+	if [ -n "$1" ]; then
+		start="$1"
 	fi
 
-	if test "$2" ; then
-		end=$2
+	if [ -n "$2" ]; then
+		end="$2"
 	fi
 
+	# Download disk range if start is a number
 	if [[ "$start" =~ ^-?[0-9]+$ ]]; then
-	
-		printf "\nDownloading Disk:\n"
+		printf "\nDownloading Disk(s):\n"
 		
-		while [ $start -le $end ]; do
-
-			printf -v file "%03d" $start
-			# wget -q "http://www.mushca.com/f/atari/GAMES/GAMES$file.ZIP" -O "$filepath/GAMES$file.zip"
-			curl -e "http://www.mushca.com/f/atari/index.php" "http://www.mushca.com/f/atari/index.php?dl=$file" -o "$filepath/GAMES$file.zip"
-			printf "\nGAMES$file.zip\n"
-			let start=start+1
-
+		while [ "$start" -le "$end" ]; do
+			# Format disk number with leading zeros
+			printf -v file "%03d" "$start"
+			
+			# Download with curl and check for errors
+			printf "Downloading GAMES%s.zip..." "$file"
+			if curl -s --connect-timeout 10 -e "http://www.mushca.com/f/atari/index.php" \
+			        "http://www.mushca.com/f/atari/index.php?dl=$file" \
+			        -o "$filepath/GAMES$file.zip"; then
+				printf " Success!\n"
+			else
+				printf " Failed!\n"
+			fi
+			
+			# Increment counter
+			((start++))
 		done
 	fi
 	
+	# Download all software collections if requested
 	if [[ "$start" == 'all' ]]; then
-	
-		printf "\nDownloading All Software:\n"
+		printf "\nDownloading All Software Collections:\n"
 		
-		printf "\nHomesoft Collection\n"
-		curl -e "http://www.mushca.com/f/atari/index.php" "http://www.mushca.com/f/atari/index.php?dl=FAF" -o "$filepath/homesoft-collection.zip"
-		printf "\nhomesoft-collection.zip\n"
+		# Download Homesoft Collection with error handling
+		printf "Downloading Homesoft Collection..."
+		if curl -s --connect-timeout 10 -e "http://www.mushca.com/f/atari/index.php" \
+		        "http://www.mushca.com/f/atari/index.php?dl=FAF" \
+		        -o "$filepath/homesoft-collection.zip"; then
+			printf " Success!\n"
+		else
+			printf " Failed!\n"
+		fi
 		
-		printf "\nHomesoft Disks\n"
-		curl -e "http://www.mushca.com/f/atari/index.php" "http://www.mushca.com/f/atari/index.php?dl=FAI" -o "$filepath/all-disks.zip"
-		printf "\nall-disks.zip\n"
-
+		# Download Homesoft Disks with error handling
+		printf "Downloading Homesoft Disks..."
+		if curl -s --connect-timeout 10 -e "http://www.mushca.com/f/atari/index.php" \
+		        "http://www.mushca.com/f/atari/index.php?dl=FAI" \
+		        -o "$filepath/all-disks.zip"; then
+			printf " Success!\n"
+		else
+			printf " Failed!\n"
+		fi
 	fi
 	
-	if test $3; then
-		if test $3 -eq $end; then
-			printf "\nPress any key to continue.\n"
-			read a
+	# Handle user input for continuation
+	if [ -n "$3" ]; then
+		if [ "$3" -eq "$end" ]; then
+			printf "\nDownload complete. Press Enter to continue.\n"
+			read -r
 		fi
 	else
-		printf "\nPress any key to continue.\n"
-		read a
+		printf "\nDownload complete. Press Enter to continue.\n"
+		read -r
 	fi
 
 }
 
 
-function get_em_prompt() {
+get_em_prompt() {
 
-		# Extract newly edited disk number
-		disk=$message
-		disk=$(printf "$disk" | sed -E "s/.*Diskette\s([0-9]{1,3}).*/\1/i")
+		# Extract newly edited disk number with error handling
+		local disk="$message"
+		if [ -n "$disk" ]; then
+			disk=$(printf "%s" "$disk" | sed -E "s/.*Diskette\s([0-9]{1,3}).*/\1/i" 2>/dev/null)
+		fi
 
-		if test "${#disk}" -gt 0; then
-			options[1]="$(printf "${options[1]}" | sed "s/#/$disk/i")"
+		# Update option 1 with disk number if available
+		if [ -n "$disk" ] && [[ "$disk" =~ ^[0-9]+$ ]]; then
+			options[1]="$(printf "%s" "${options[1]}" | sed "s/#/$disk/i")"
 		else
-			options[1]=' '
+			options[1]="Download latest disk"
 		fi
 		
 		
-		printf "\n$1\n\n"
-		printf $normal
+		printf "\n%s\n\n" "$1"
+		printf "%s" "$normal"
 		
   while true; do
   
-		n=1
-		for i in "${options[@]}"; do
-			printf "$n) $i\n"
-			let n=n+1
+		local n=1
+		for opt in "${options[@]}"; do
+			printf "%d) %s\n" "$n" "$opt"
+			((n++))
 		done
 		
 			printf "\n"
@@ -220,8 +260,11 @@ function get_em_prompt() {
 		
 		1) # Get updated disk
 		
-			if test "$disk" -gt 0 ; then
-				get_em_discs $disk $disk
+			if [ -n "$disk" ] && [ "$disk" -gt 0 ]; then
+				get_em_discs "$disk" "$disk"
+			else
+				printf "\nNo specific disk number found in the message.\n"
+				read -r -p "Press Enter to continue"
 			fi
 			clear
 
@@ -233,8 +276,8 @@ function get_em_prompt() {
 			read -a a
 
 			c=${a[-1]}
-			for i in ${a[@]}; do
-				get_em_discs $i $i $c
+			for disk_num in "${a[@]}"; do
+				get_em_discs "$disk_num" "$disk_num" "$c"
 			done
 			clear
 		;;
@@ -246,7 +289,7 @@ function get_em_prompt() {
 			printf "\nLast disk number\n"
 			read z
 			
-			get_em_discs $a $z
+			get_em_discs "$a" "$z"
 			clear
 			
 		;;
@@ -276,10 +319,10 @@ function get_em_prompt() {
 
 			done
 
-			printf $bold
-			printf "\nPress any key to continue\n"
-			printf $normal
-			read something
+			printf "%s" "$bold"
+			printf "\nPress Enter to continue\n"
+			printf "%s" "$normal"
+			read -r
 			clear
 
 		;;
@@ -296,10 +339,10 @@ function get_em_prompt() {
 
 			done
 
-			printf $bold
-			printf "\nPress any key to continue\n"
-			printf $normal
-			read something
+			printf "%s" "$bold"
+			printf "\nPress Enter to continue\n"
+			printf "%s" "$normal"
+			read -r
 			clear
 
 		;;
@@ -327,10 +370,10 @@ function get_em_prompt() {
 
 			done
 
-			printf $bold
-			printf "\nPress any key to continue\n"
-			printf $normal
-			read something
+			printf "%s" "$bold"
+			printf "\nPress Enter to continue\n"
+			printf "%s" "$normal"
+			read -r
 			clear
 		
 		;;
@@ -361,19 +404,29 @@ function get_em_prompt() {
 
 ## launch terminal
 
-function get_em_launch() {
-
-	terminal=( konsole gnome-terminal x-terminal-emulator xdg-terminal terminator urxvt rxvt Eterm aterm roxterm xfce4-terminal termite lxterminal xterm )
-	for i in ${terminal[@]}; do
-		if command -v $i > /dev/null 2>&1; then
-			exec $i -e "$0"
-			# break
-		else
-			printf "\nUnable to automatically determine the correct terminal program to run e.g Console or Konsole. Please run this program from the command line.\n"
-			read something
-			exit 1
+get_em_launch() {
+	# Define an array of common terminal emulators
+	local terminal=( konsole gnome-terminal x-terminal-emulator xdg-terminal terminator urxvt rxvt Eterm aterm roxterm xfce4-terminal termite lxterminal xterm )
+	local term_found=false
+	
+	# Try to find an available terminal emulator
+	for term in "${terminal[@]}"; do
+		if command -v "$term" > /dev/null 2>&1; then
+			term_found=true
+			printf "Launching in %s terminal...\n" "$term"
+			exec "$term" -e "$0"
+			# If exec succeeds, we won't reach this point
+			break
 		fi
 	done
+	
+	# If no terminal was found
+	if ! $term_found; then
+		printf "\nUnable to automatically determine the correct terminal program.\n"
+		printf "Please run this program from the command line.\n"
+		read -r -p "Press Enter to exit" 
+		exit 1
+	fi
 }
 
 ## Boot
