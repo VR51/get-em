@@ -1,4 +1,4 @@
-# Get-Em 1.0.10
+# Get-Em 1.1.0
 
 Download Atari 8-bit Game Disks from [http://www.mushca.com/f/atari/index.php](http://www.mushca.com/f/atari/index.php).
 
@@ -16,7 +16,7 @@ Donate: https://paypal.me/vr51
 
 Website: https://journalxtra.com/gaming/classic-atari-games-downloader/
 
-This Release: 22nd Sep 2021
+This Release: 24th April 2025
 
 First Written: 3rd Sep 2017
 
